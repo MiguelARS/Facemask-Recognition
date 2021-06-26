@@ -97,7 +97,11 @@ while True:
 		# Mostramos la precision con 2 decimales
 		label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
 
+<<<<<<< HEAD
 		# Funciones para imprimir t0do lo anterior en el video
+=======
+		# Funciones para imprimir todo lo anterior en el video
+>>>>>>> 223a46517f76af9f5bff45d7b2a376c078a5815f
 
 		cv2.putText(frame, label, (startX, startY - 10),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)

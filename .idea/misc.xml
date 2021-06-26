@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (Facemask-recognition)" project-jdk-type="Python SDK" />
+>>>>>>> 223a46517f76af9f5bff45d7b2a376c078a5815f
 </project>
