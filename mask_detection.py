@@ -12,7 +12,7 @@ warnings.filterwarnings("ignore")
 
 
 def mask_detection(frame, faceNet, maskNet):
-	# De acuerdo a la dimension del video se sca la porcion (blob)
+	# De acuerdo a la dimension del video se saca la porcion (blob)
 	(h, w) = frame.shape[:2]
 	blob = cv2.dnn.blobFromImage(frame, 1.0, (224, 224),
 		(104.0, 177.0, 123.0))
@@ -96,13 +96,9 @@ while True:
 
 		# Mostramos la precision con 2 decimales
 		label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
-
-<<<<<<< HEAD
 		# Funciones para imprimir t0do lo anterior en el video
-=======
-		# Funciones para imprimir todo lo anterior en el video
->>>>>>> 223a46517f76af9f5bff45d7b2a376c078a5815f
 
+		# Funciones para imprimir todo lo anterior en el video
 		cv2.putText(frame, label, (startX, startY - 10),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
 		cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
