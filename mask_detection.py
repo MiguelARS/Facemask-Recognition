@@ -5,6 +5,8 @@ from imutils.video import VideoStream
 import numpy as np
 import imutils
 import cv2
+import tkinter as tk
+import tkinter.font as font
 
 #Limpiar algunos warnings
 import warnings
@@ -73,45 +75,87 @@ trained_model = load_model("mask_detector.model")
 # Inicializacion del video
 vs = VideoStream(src=0).start()
 
-# While infinito donde se procesa toda la informacion de la camara
-while True:
-	# Redimensionamos el tamaño de la camara
-	frame = vs.read()
-	frame = imutils.resize(frame, width=800)
+def ventana3() :
+	# While infinito donde se procesa toda la informacion de la camara
+	while True:
+		# Redimensionamos el tamaño de la camara
+		frame = vs.read()
+		frame = imutils.resize(frame, width=800)
 
-	# Usa la funcion para detectar mascarillas
-	(locs, preds) = mask_detection(frame, faceNet, trained_model)
+		# Usa la funcion para detectar mascarillas
+		(locs, preds) = mask_detection(frame, faceNet, trained_model)
 
-	# For para detectar la zona del video en donde se produce el reconocimiento
-	for (box, pred) in zip(locs, preds):
-		# Sacamos las posiciones de las 4 esquinas
-		(startX, startY, endX, endY) = box
-		(mask, withoutMask) = pred
+		# For para detectar la zona del video en donde se produce el reconocimiento
+		for (box, pred) in zip(locs, preds):
+			# Sacamos las posiciones de las 4 esquinas
+			(startX, startY, endX, endY) = box
+			(mask, withoutMask) = pred
 
-		# Cambiamos el color y etiqueta de acuerdo a lo reonocido
-		# Rojo - sin mascarilla
-		# Verde - con mascarilla
-		label = "Mask" if mask < withoutMask else "No Mask"
-		color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
+			# Cambiamos el color y etiqueta de acuerdo a lo reonocido
+			# Rojo - sin mascarilla
+			# Verde - con mascarilla
+			label = "Mask" if mask < withoutMask else "No Mask"
+			color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
 
-		# Mostramos la precision con 2 decimales
-		label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
-		# Funciones para imprimir t0do lo anterior en el video
+			# Mostramos la precision con 2 decimales
+			label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
+			# Funciones para imprimir t0do lo anterior en el video
 
-		# Funciones para imprimir todo lo anterior en el video
-		cv2.putText(frame, label, (startX, startY - 10),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
-		cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+			# Funciones para imprimir todo lo anterior en el video
+			cv2.putText(frame, label, (startX, startY - 10),
+						cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
+			cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
 
-	# Impresion de cada frame del video en tiempo real
-	cv2.imshow("Mask Detector", frame)
-	key = cv2.waitKey(1) & 0xFF
+		# Impresion de cada frame del video en tiempo real
+		cv2.imshow("Mask Detector", frame)
+		key = cv2.waitKey(1) & 0xFF
 
-	# Condicional
-	# Si se presiona la letra "q" se termina el loop del video
-	if key == ord("q"):
-		break
+		# Condicional
+		# Si se presiona la letra "q" se termina el loop del video
+		if key == ord("q"):
+			break
+		if cv2.waitKey(1) & 0xFF == ord("y"):  # save on pressing "y"
+			cv2.imwrite("captura1.png", frame)
+
+
+def ventana2():
+	ventana1.withdraw()
+
+	ventana2 = tk.Toplevel()
+	ventana2.geometry("800x548")
+	ventana2.title("Mask detection")
+	fondo = tk.PhotoImage(file="images/foto2.png")
+	lblFondo = tk.Label(ventana2, image=fondo).place(x=0, y=0)
+
+	boton2 = tk.Button(ventana2, text="COMENZAR", command=ventana3, width=13)
+	boton2.place(x=490, y=490)
+	myfont = font.Font(family='Courier', size=15, weight='bold')
+	boton2.config(fg="#6C1D45")
+	boton2.config(bg="#FFFFFF", activebackground="#6C1D45")
+	boton2['font'] = myfont
+
+	ventana2.mainloop()
+
+#GUI
+ventana1 = tk.Tk()
+ventana1.geometry("800x548")
+ventana1.title("Mask detection")
+
+fondo = tk.PhotoImage(file="images/foto1.png")
+lblFondo = tk.Label(ventana1,image=fondo).place(x=0,y=0)
+
+boton1 = tk.Button(ventana1,text="SIGUIENTE",command=ventana2,width=14)
+boton1.place(x=72,y=320)
+myfont = font.Font(family='Courier', size=15, weight='bold')
+boton1.config(fg="#6C1D45")
+boton1.config(bg="#FFFFFF",activebackground="#6C1D45")
+boton1['font'] = myfont
+
+ventana1.mainloop()
+
+
 
 # Cerramos las ventanas y video
 cv2.destroyAllWindows()
 vs.stop()
+
