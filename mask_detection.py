@@ -75,7 +75,7 @@ trained_model = load_model("mask_detector.model")
 # Inicializacion del video
 vs = VideoStream(src=0).start()
 
-def ventana3() :
+def ventana4() :
 	# While infinito donde se procesa toda la informacion de la camara
 	while True:
 		# Redimensionamos el tamaño de la camara
@@ -117,17 +117,15 @@ def ventana3() :
 		if cv2.waitKey(1) & 0xFF == ord("y"):  # save on pressing "y"
 			cv2.imwrite("captura1.png", frame)
 
-
 def ventana2():
 	ventana1.withdraw()
-
 	ventana2 = tk.Toplevel()
 	ventana2.geometry("800x548")
 	ventana2.title("Mask detection")
 	fondo = tk.PhotoImage(file="images/foto2.png")
 	lblFondo = tk.Label(ventana2, image=fondo).place(x=0, y=0)
 
-	boton2 = tk.Button(ventana2, text="COMENZAR", command=ventana3, width=13)
+	boton2 = tk.Button(ventana2, text="SIGUIENTE", command=ventana3, width=13)
 	boton2.place(x=490, y=490)
 	myfont = font.Font(family='Courier', size=15, weight='bold')
 	boton2.config(fg="#6C1D45")
@@ -135,6 +133,24 @@ def ventana2():
 	boton2['font'] = myfont
 
 	ventana2.mainloop()
+
+
+def ventana3():
+	ventana3 = tk.Toplevel()
+	ventana3.geometry("800x548")
+	ventana3.title("Mask detection")
+	fondo = tk.PhotoImage(file="images/foto3.png")
+	lblFondo = tk.Label(ventana3, image=fondo).place(x=0, y=0)
+
+	boton3 = tk.Button(ventana3, text="COMENZAR", command=ventana4, width=13)
+	boton3.place(x=490, y=490)
+	myfont = font.Font(family='Courier', size=15, weight='bold')
+	boton3.config(fg="#6C1D45")
+	boton3.config(bg="#FFFFFF", activebackground="#6C1D45")
+	boton3['font'] = myfont
+
+	ventana3.mainloop()
+
 
 #GUI
 ventana1 = tk.Tk()
